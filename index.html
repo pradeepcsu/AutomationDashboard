@@ -1,0 +1,60 @@
+<html>
+<head>
+ <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <header name = "Access-Control-Allow-Origin" value = "*" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+	getdata(0);
+});
+function getdata(pagecount)
+{
+	$.ajax({
+            type: "POST",
+            url: "http://localhost:3050/getdata",
+            data: {pagecount:pagecount},
+			error: function (jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				//$('#post').html(msg);
+				alert(msg);
+			},
+			success: function(data) {
+                //alert('Success!');
+				console.log(data.recordset);
+				console.log(data.recordset.length);
+				//var jsondata=JSON.parse(data);
+				var dataarray=data.recordset;
+				console.log(dataarray);
+				var str="";
+				str = str+'<p id="paragraph">'
+				str = str+'Number of Tests Passed: '
+				str = str+dataarray[0].TotalPassed;
+				str=str+"</p>";
+				console.log(str);
+				$("#paragraph").html(str);
+            }
+        });
+}
+</script>
+<input type="date" name="date" id="dateinput" >
+<p id="paragraph">Number Of Tests Passed: </p>
+
+</body>
+</html>
