@@ -1,15 +1,10 @@
 
 var express = require('express');
 app = express(),
-//require the body-parser nodejs module
 bodyParser = require('body-parser'),
-//require the path nodejs module
 path = require("path");
-//support parsing of application/json type post data
 app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true })); 
-//tell express that www is the root of our public web folder
 app.use(express.static(path.join(__dirname, 'www')));
 
 //tell express what to do when the /form route is requested
@@ -36,7 +31,7 @@ app.post('/getdata',function(req, res){
         var request = new sql.Request();
            
         // query to the database and get the records
-        request.query("select Count(*) AS TotalPassed from Table_1 where TestResult = 'Pass'", function (err, recordset) {
+        request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where convert(char(8), TestRunDate, 112) = convert(char(8), '20180829', 112) group by TestResult", function (err, recordset) {
             
             if (err) console.log(err)
 

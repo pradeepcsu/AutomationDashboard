@@ -44,8 +44,12 @@ function getdata(pagecount)
 				console.log(dataarray);
 				var str="";
 				str = str+'<p id="paragraph">'
+				str = str+'Number of Tests Failed: '
+				str = str+dataarray[0].Number;
+				str=str+"</p>";
+				str = str+'<p id="paragraph2">'
 				str = str+'Number of Tests Passed: '
-				str = str+dataarray[0].TotalPassed;
+				str = str+dataarray[1].Number;;
 				str=str+"</p>";
 				console.log(str);
 				$("#paragraph").html(str);
@@ -54,7 +58,7 @@ function getdata(pagecount)
 }
 </script>
 <input type="date" name="date" id="dateinput" >
-<p id="paragraph">Number Of Tests Passed: </p>
+<p id="paragraph"> </p>
 
 </body>
 </html>
