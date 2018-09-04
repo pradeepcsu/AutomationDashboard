@@ -57,8 +57,22 @@ function getdata(pagecount)
         });
 }
 </script>
-<input type="date" name="date" id="dateinput" >
+<h2>Get Test Results</h2>
+<label for="bday">Enter date to view results:</label>
+<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-02">
+<button onclick="myFunction()">Get Results</button>
+<p>
+<span id="executiondate">Date of Execution: </span>
+<span id="demo"></span>
+</p>
 <p id="paragraph"> </p>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("dateinput").value;
+    document.getElementById("demo").innerHTML = x;
+}
+</script>
 
 </body>
 </html>
