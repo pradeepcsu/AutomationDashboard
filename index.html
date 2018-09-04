@@ -6,15 +6,12 @@
 </head>
 <body>
 <script>
-$(document).ready(function(){
-	getdata(0);
-});
-function getdata(pagecount)
+function getdata(selectedDate)
 {
 	$.ajax({
             type: "POST",
             url: "http://localhost:3050/getdata",
-            data: {pagecount:pagecount},
+            data: {selectedDate:selectedDate},
 			error: function (jqXHR, exception) {
 				var msg = '';
 				if (jqXHR.status === 0) {
@@ -37,12 +34,15 @@ function getdata(pagecount)
 			},
 			success: function(data) {
                 //alert('Success!');
+				var str="";
+				$("#paragraph").html(str);
 				console.log(data.recordset);
 				console.log(data.recordset.length);
 				//var jsondata=JSON.parse(data);
 				var dataarray=data.recordset;
 				console.log(dataarray);
-				var str="";
+
+
 				str = str+'<p id="paragraph">'
 				str = str+'Number of Tests Failed: '
 				str = str+dataarray[0].Number;
@@ -71,6 +71,7 @@ function getdata(pagecount)
 function myFunction() {
     var x = document.getElementById("dateinput").value;
     document.getElementById("demo").innerHTML = x;
+	getdata(x);
 }
 </script>
 

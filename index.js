@@ -22,8 +22,8 @@ app.post('/getdata',function(req, res){
 	res.setHeader('Content-Type', 'application/json');
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	var pagecount=req.body.pagecount;
-	console.log(pagecount);
+	var selectedDate=req.body.selectedDate;
+	console.log(selectedDate);
     sql.connect(config, function (err) {
         if (err) console.log(err);
 
@@ -31,7 +31,9 @@ app.post('/getdata',function(req, res){
         var request = new sql.Request();
            
         // query to the database and get the records
-        request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where convert(char(8), TestRunDate, 112) = convert(char(8), '20180829', 112) group by TestResult", function (err, recordset) {
+       // request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where convert(char(8), TestRunDate, 112) = convert(char(8), '20180829', 
+//112) group by TestResult", function (err, recordset) {
+request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where CONVERT(varchar, TestRunDate, 23) ='"+selectedDate+"' group by TestResult", function (err, recordset) {
             
             if (err) console.log(err)
 
