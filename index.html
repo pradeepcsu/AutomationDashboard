@@ -1,8 +1,11 @@
 <html>
 <head>
  <meta http-equiv="Access-Control-Allow-Origin" content="*">
-    <header name = "Access-Control-Allow-Origin" value = "*" />
+    <header name = "Access-Control-Allow-Origin" value = "*">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <script>
@@ -41,8 +44,6 @@ function getdata(selectedDate)
 				//var jsondata=JSON.parse(data);
 				var dataarray=data.recordset;
 				console.log(dataarray);
-
-
 				str = str+'<p id="paragraph">'
 				str = str+'Number of Tests Failed: '
 				str = str+dataarray[0].Number;
@@ -57,16 +58,42 @@ function getdata(selectedDate)
         });
 }
 </script>
+<div class = "jumbotron text-center">
 <h2>Get Test Results</h2>
-<label for="bday">Enter date to view results:</label>
+<label for="bday"><font size="4">Enter date to view results:</font></label>
 <input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-02">
-<button onclick="myFunction()">Get Results</button>
+<button class ="btn btn-primary btn-md" onclick="myFunction()">Get Results</button>
 <p>
 <span id="executiondate">Date of Execution: </span>
 <span id="demo"></span>
 </p>
 <p id="paragraph"> </p>
 
+<div class = "container">
+<table class="table">
+    <thead>
+    </thead>
+    <tbody>   
+	   <tr class="warning">
+		<td>Date of Execution</td>
+		<td>2018-09-08</td>
+	  </tr> 
+	  <tr class="info">
+		<td>Number of Tests Executed</td>
+		<td>350</td>
+	  </tr>
+      <tr class="success">
+        <td>Number of Tests Passed</td>
+        <td>200</td>
+      </tr>
+      <tr class="danger">
+        <td>Number of Tests Failed</td>
+        <td>150</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
 <script>
 function myFunction() {
     var x = document.getElementById("dateinput").value;
