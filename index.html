@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
 </head>
 <body>
 <script>
@@ -13,7 +15,7 @@ function getdata(selectedDate)
 {
 	$.ajax({
             type: "POST",
-            url: "http://localhost:3050/getdata",
+            url: "http://localhost:3050/getdatanew",
             data: {selectedDate:selectedDate},
 			error: function (jqXHR, exception) {
 				var msg = '';
@@ -36,24 +38,17 @@ function getdata(selectedDate)
 				alert(msg);
 			},
 			success: function(data) {
-                //alert('Success!');
 				var str="";
-				$("#paragraph").html(str);
-				console.log(data.recordset);
-				console.log(data.recordset.length);
-				//var jsondata=JSON.parse(data);
-				var dataarray=data.recordset;
-				console.log(dataarray);
-				str = str+'<p id="paragraph">'
-				str = str+'Number of Tests Failed: '
-				str = str+dataarray[0].Number;
-				str=str+"</p>";
-				str = str+'<p id="paragraph2">'
-				str = str+'Number of Tests Passed: '
-				str = str+dataarray[1].Number;;
-				str=str+"</p>";
-				console.log(str);
-				$("#paragraph").html(str);
+				console.log(data);
+							
+				str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
+				$("#newtable").html(str);
+
+new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)"]}]}});
+
+//to autorefresh
+//setTimeout(function(){myFunction();}, 3000);
+
             }
         });
 }
@@ -61,7 +56,7 @@ function getdata(selectedDate)
 <div class = "jumbotron text-center">
 <h2>Get Test Results</h2>
 <label for="bday"><font size="4">Enter date to view results:</font></label>
-<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-02">
+<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-04">
 <button class ="btn btn-primary btn-md" onclick="myFunction()">Get Results</button>
 <p>
 <span id="executiondate">Date of Execution: </span>
@@ -70,29 +65,24 @@ function getdata(selectedDate)
 <p id="paragraph"> </p>
 
 <div class = "container">
+<center>
+<div style="width:700px; height:200px">
+<div id="newtable">
 <table class="table">
     <thead>
     </thead>
     <tbody>   
-	   <tr class="warning">
-		<td>Date of Execution</td>
-		<td>2018-09-08</td>
-	  </tr> 
-	  <tr class="info">
-		<td>Number of Tests Executed</td>
-		<td>350</td>
-	  </tr>
-      <tr class="success">
-        <td>Number of Tests Passed</td>
-        <td>200</td>
-      </tr>
-      <tr class="danger">
-        <td>Number of Tests Failed</td>
-        <td>150</td>
-      </tr>
     </tbody>
   </table>
   </div>
+  </div>
+</div>
+<center>
+<div style="width:700px; height:700px">
+<canvas id="chartjs-4" class="chartjs"></canvas>
+</div>
+</center>
+</center>
 </div>
 <script>
 function myFunction() {
@@ -100,6 +90,8 @@ function myFunction() {
     document.getElementById("demo").innerHTML = x;
 	getdata(x);
 }
+//new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Red","Blue","Yellow"],"datasets":[{"label":"My First //Dataset","data":[300,50,100],"backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]}]}});
+
 </script>
 
 </body>
