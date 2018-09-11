@@ -31,9 +31,9 @@ app.post('/getdata',function(req, res){
         var request = new sql.Request();
            
         // query to the database and get the records
-       // request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where convert(char(8), TestRunDate, 112) = convert(char(8), '20180829', 
-//112) group by TestResult", function (err, recordset) {
-request.query("Select TestResult, Count(TestResult) AS Number from Table_1 where CONVERT(varchar, TestRunDate, 23) ='"+selectedDate+"' group by TestResult", function (err, recordset) {
+       // request.query("Select TestPassed, Count(TestPassed) AS Number from Table_1 where convert(char(8), RunDateTime, 112) = convert(char(8), '20180829', 
+//112) group by TestPassed", function (err, recordset) {
+request.query("Select TestPassed, Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' group by TestPassed", function (err, recordset) {
             
             if (err) console.log(err)
 
@@ -58,16 +58,16 @@ app.post('/getdatanew',function(req, res){
         // create Request object
         var request = new sql.Request();
            
-request.query("Select Count(TestResult) AS Number from Table_1 where CONVERT(varchar, TestRunDate, 23) ='"+selectedDate+"'", 	function (count_err, count_recordset) {
+request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"'", 	function (count_err, count_recordset) {
 		if (count_err) console.log(count_err)
 			if(!count_err)
 			{
 				console.log(count_recordset);
-				request.query("Select Count(TestResult) AS Number from Table_1 where CONVERT(varchar, TestRunDate, 23) ='"+selectedDate+"' and TestResult='PASS' ", 	function (pass_err, pass_recordset) {
+				request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='passed' ", 	function (pass_err, pass_recordset) {
 						if(!pass_err)
 						{					
 							console.log(pass_recordset);					
-							request.query("Select Count(TestResult) AS Number from Table_1 where CONVERT(varchar, TestRunDate, 23) ='"+selectedDate+"' and TestResult='FAIL'", 	function (fail_err, fail_recordset) {
+							request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='failed'", 	function (fail_err, fail_recordset) {
 								if(!fail_err)
 								{
 									console.log(fail_recordset);
