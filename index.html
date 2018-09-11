@@ -44,7 +44,7 @@ function getdata(selectedDate)
 				str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
 				$("#newtable").html(str);
 
-new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)"]}]}});
+new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(65, 205, 65)","rgb(255, 99, 132)"]}]}});
 
 //to autorefresh
 //setTimeout(function(){myFunction();}, 3000);
