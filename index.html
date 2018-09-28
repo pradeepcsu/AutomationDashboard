@@ -52,9 +52,65 @@ new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"label
             }
         });
 }
+
+function getdata_1(selectedDate)
+{
+	$.ajax({
+            type: "POST",
+            url: "http://localhost:3050/getdatanew_1",
+            data: {selectedDate:selectedDate},
+			error: function (jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				//$('#post').html(msg);
+				alert(msg);
+			},
+			success: function(data) {
+				var str="";
+				console.log(data);
+							
+				str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
+				$("#newtable_1").html(str);
+
+new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(65, 205, 65)","rgb(255, 99, 132)"]}]}});
+
+//to autorefresh
+//setTimeout(function(){myFunction();}, 3000);
+
+            }
+        });
+}
+
 </script>
 <div class = "jumbotron text-center">
-<h2>Get Test Results</h2>
+
+<div class="container">
+	<h2>DRR Dashboard</h2>
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#home">DRR</a></li>
+	  <li><a data-toggle="tab" href="#menu1">qTest Automated Execution</a></li>
+	  <li><a data-toggle="tab" href="#menu2">Totals</a></li>
+	</ul>
+  
+	<div class="tab-content">
+	  <div id="home" class="tab-pane fade in active">
+			<h3>DRR</h3>
+			
+			<h2>Get Test Results</h2>
 <label for="bday"><font size="4">Enter date to view results:</font></label>
 <input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-04">
 <button class ="btn btn-primary btn-md" onclick="myFunction()">Get Results</button>
@@ -83,6 +139,52 @@ new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"label
 </div>
 </center>
 </center>
+
+  
+	  </div>
+	  <div id="menu1" class="tab-pane fade">
+		<h3>Menu 1</h3>
+		<h2>Get Test Results</h2>
+<label for="bday"><font size="4">Enter date to view results:</font></label>
+<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-04">
+<button class ="btn btn-primary btn-md" onclick="myFunction_1()">Get Results</button>
+<p>
+<span id="executiondate">Date of Execution: </span>
+<span id="demo"></span>
+</p>
+<p id="paragraph"> </p>
+
+<div class = "container">
+<center>
+<div style="width:700px; height:200px">
+<div id="newtable_1">
+<table class="table">
+    <thead>
+    </thead>
+    <tbody>   
+    </tbody>
+  </table>
+  </div>
+  </div>
+</div>
+<center>
+<div style="width:700px; height:700px">
+<canvas id="chartjs-4_1" class="chartjs"></canvas>
+</div>
+</center>
+</center>
+
+	  </div>
+	  <div id="menu2" class="tab-pane fade">
+		<h3>Menu 2</h3>
+		
+	  </div>
+	  <div id="menu3" class="tab-pane fade">
+		<h3>Menu 3</h3>
+		
+	  </div>
+	</div>
+  </div>
 </div>
 <script>
 function myFunction() {
@@ -90,6 +192,16 @@ function myFunction() {
     document.getElementById("demo").innerHTML = x;
 	getdata(x);
 }
+function myFunction_1() {
+    var x = document.getElementById("dateinput").value;
+    document.getElementById("demo").innerHTML = x;
+	getdata_1(x);
+}
+
+$( document ).ready(function() {
+		console.log( "ready!" );
+		myFunction();
+});
 //new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Red","Blue","Yellow"],"datasets":[{"label":"My First //Dataset","data":[300,50,100],"backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]}]}});
 
 </script>

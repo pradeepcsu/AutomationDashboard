@@ -115,6 +115,75 @@ request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(var
 	});	
 });
 
+app.post('/getdatanew_1',function(req, res){
+	res.setHeader('Content-Type', 'application/json');
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	var selectedDate=req.body.selectedDate;
+	console.log(selectedDate);
+    sql.connect(config, function (err) {
+        if (err) console.log(err);
+
+        // create Request object
+        var request = new sql.Request();
+           
+request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"'", 	function (count_err, count_recordset) {
+		if (count_err) console.log(count_err)
+			if(!count_err)
+			{
+				console.log(count_recordset);
+				request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='passed' ", 	function (pass_err, pass_recordset) {
+						if(!pass_err)
+						{					
+							console.log(pass_recordset);					
+							request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='failed'", 	function (fail_err, fail_recordset) {
+								if(!fail_err)
+								{
+									console.log(fail_recordset);
+									res.send(JSON.stringify({
+											total: count_recordset.recordset[0].Number,
+											pass: pass_recordset.recordset[0].Number,
+											fail: fail_recordset.recordset[0].Number,
+											error:""
+										}));
+									sql.close();
+								}
+								else
+								{
+									res.send(JSON.stringify({
+											total: count_recordset.recordset[0].Number,
+											pass: pass_recordset.recordset[0].Number,
+											fail: 0,
+											error:fail_err}));
+									sql.close();
+								}
+							});
+						}
+						else
+						{
+							res.send(JSON.stringify({
+											total: count_recordset.recordset[0].Number,
+											pass: 0,
+											fail: 0,
+											error:pass_err}));
+							sql.close();
+						}
+					});
+			}
+			else
+			{
+				res.send(JSON.stringify({
+					total: "0",
+					pass: "0",
+					fail: "0",
+					error:count_err
+				}));
+				sql.close();
+			}
+        });
+	});	
+});
+
 app.listen(3050, function () {
   console.log('Server is running. Point your browser to: http://localhost:3050');
 });
