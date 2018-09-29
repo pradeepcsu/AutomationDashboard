@@ -18,34 +18,6 @@ app.use(express.static(path.join(__dirname, 'www')));
         server: 'localhost', 
         database: 'Test1'
     };
-app.post('/getdata',function(req, res){
-	res.setHeader('Content-Type', 'application/json');
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	var selectedDate=req.body.selectedDate;
-	console.log(selectedDate);
-    sql.connect(config, function (err) {
-        if (err) console.log(err);
-
-        // create Request object
-        var request = new sql.Request();
-           
-        // query to the database and get the records
-       // request.query("Select TestPassed, Count(TestPassed) AS Number from Table_1 where convert(char(8), RunDateTime, 112) = convert(char(8), '20180829', 
-//112) group by TestPassed", function (err, recordset) {
-request.query("Select TestPassed, Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' group by TestPassed", function (err, recordset) {
-            
-            if (err) console.log(err)
-
-            // send records as a response
-            res.send(recordset);
-            sql.close();
-        });
-    });
-});
-
-
-
 app.post('/getdatanew',function(req, res){
 	res.setHeader('Content-Type', 'application/json');
 	res.header("Access-Control-Allow-Origin", "*");
@@ -127,16 +99,16 @@ app.post('/getdatanew_1',function(req, res){
         // create Request object
         var request = new sql.Request();
            
-request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"'", 	function (count_err, count_recordset) {
+request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"'", 	function (count_err, count_recordset) {
 		if (count_err) console.log(count_err)
 			if(!count_err)
 			{
 				console.log(count_recordset);
-				request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='passed' ", 	function (pass_err, pass_recordset) {
+				request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='passed' ", 	function (pass_err, pass_recordset) {
 						if(!pass_err)
 						{					
 							console.log(pass_recordset);					
-							request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='failed'", 	function (fail_err, fail_recordset) {
+							request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(varchar, RunDateTime, 23) ='"+selectedDate+"' and TestPassed='failed'", 	function (fail_err, fail_recordset) {
 								if(!fail_err)
 								{
 									console.log(fail_recordset);
@@ -184,6 +156,6 @@ request.query("Select Count(TestPassed) AS Number from Table_2 where CONVERT(var
 	});	
 });
 
-app.listen(3050, function () {
-  console.log('Server is running. Point your browser to: http://localhost:3050');
+app.listen(8080, function () {
+  console.log('Server is running. Point your browser to: http://localhost:8080');
 });

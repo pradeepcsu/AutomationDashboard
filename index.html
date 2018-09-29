@@ -15,7 +15,7 @@ function getdata(selectedDate)
 {
 	$.ajax({
             type: "POST",
-            url: "http://localhost:3050/getdatanew",
+            url: "http://localhost:8080/getdatanew",
             data: {selectedDate:selectedDate},
 			error: function (jqXHR, exception) {
 				var msg = '';
@@ -41,7 +41,7 @@ function getdata(selectedDate)
 				var str="";
 				console.log(data);
 							
-				str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
+				str='<table class="table"><thead></thead><tbody<tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
 				$("#newtable").html(str);
 
 new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(65, 205, 65)","rgb(255, 99, 132)"]}]}});
@@ -57,7 +57,7 @@ function getdata_1(selectedDate)
 {
 	$.ajax({
             type: "POST",
-            url: "http://localhost:3050/getdatanew_1",
+            url: "http://localhost:8080/getdatanew_1",
             data: {selectedDate:selectedDate},
 			error: function (jqXHR, exception) {
 				var msg = '';
@@ -83,7 +83,7 @@ function getdata_1(selectedDate)
 				var str="";
 				console.log(data);
 							
-				str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
+				str='<table class="table"><thead></thead><tbody><tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
 				$("#newtable_1").html(str);
 
 new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"labels":["Pass","Fail"],"datasets":[{"label":"My First Dataset","data":[data.pass,data.fail],"backgroundColor":["rgb(65, 205, 65)","rgb(255, 99, 132)"]}]}});
@@ -100,10 +100,12 @@ new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"lab
 
 <div class="container">
 	<h2>DRR Dashboard</h2>
-	<ul class="nav nav-tabs">
-	  <li class="active"><a data-toggle="tab" href="#home">DRR</a></li>
-	  <li><a data-toggle="tab" href="#menu1">qTest Automated Execution</a></li>
-	  <li><a data-toggle="tab" href="#menu2">Totals</a></li>
+	<!-- <ul class="nav nav-tabs"> -->
+	<ul class="nav nav-pills nav-fill">			
+	  <!-- <li class="active"><a data-toggle="tab" href="#home">DRR</a></li> -->
+	  <li class="nav-item active"><a data-toggle="tab" href="#home">DRR</a></li>	  
+	  <li class="nav-item"><a data-toggle="tab" href="#menu1">qTest Automated Execution</a></li>
+	  <li class="nav-item"><a data-toggle="tab" href="#menu2">Totals</a></li>
 	</ul>
   
 	<div class="tab-content">
@@ -112,7 +114,7 @@ new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"lab
 			
 			<h2>Get Test Results</h2>
 <label for="bday"><font size="4">Enter date to view results:</font></label>
-<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-04">
+<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-22">
 <button class ="btn btn-primary btn-md" onclick="myFunction()">Get Results</button>
 <p>
 <span id="executiondate">Date of Execution: </span>
@@ -137,6 +139,8 @@ new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"lab
 <div style="width:700px; height:700px">
 <canvas id="chartjs-4" class="chartjs"></canvas>
 </div>
+<div id="donutchart" style="width: 900px; height: 500px;"></div>
+
 </center>
 </center>
 
@@ -146,11 +150,11 @@ new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"lab
 		<h3>Menu 1</h3>
 		<h2>Get Test Results</h2>
 <label for="bday"><font size="4">Enter date to view results:</font></label>
-<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput" value="2018-09-04">
+<input type="date" name="date" data-date-format ="yyyy-mm-dd" id="dateinput_1" value="2018-09-04">
 <button class ="btn btn-primary btn-md" onclick="myFunction_1()">Get Results</button>
 <p>
 <span id="executiondate">Date of Execution: </span>
-<span id="demo"></span>
+<span id="demo_1"></span>
 </p>
 <p id="paragraph"> </p>
 
@@ -193,13 +197,27 @@ function myFunction() {
 	getdata(x);
 }
 function myFunction_1() {
-    var x = document.getElementById("dateinput").value;
-    document.getElementById("demo").innerHTML = x;
+    var x = document.getElementById("dateinput_1").value;
+    document.getElementById("demo_1").innerHTML = x;
 	getdata_1(x);
 }
 
 $( document ).ready(function() {
 		console.log( "ready!" );
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1;
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+		} 
+		if(mm<10){
+			mm='0'+mm;
+		} 
+		today = yyyy+'-'+mm+'-'+dd;
+		console.log( "ready!"  + today);
+		document.getElementById("dateinput").value = today + "";
+		document.getElementById("dateinput_1").value = today + "";
 		myFunction();
 });
 //new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"labels":["Red","Blue","Yellow"],"datasets":[{"label":"My First //Dataset","data":[300,50,100],"backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]}]}});
