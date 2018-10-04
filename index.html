@@ -59,7 +59,7 @@ function getdata_3()
           $.ajax({
                     type: "POST",
                     url: "http://localhost:8080/getDuplicates",
-                    data: {},
+                    // data: {},
               error: function (jqXHR, exception) {
                 var msg = '';
                 if (jqXHR.status === 0) {
@@ -82,7 +82,9 @@ function getdata_3()
               },
               success: function(data) {
                 var str="";
-                console.log(data.data);                 
+				console.log(data);   
+				console.log(data[0].ScenarioName);                 
+              
                 
 
                 // str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
@@ -91,16 +93,16 @@ function getdata_3()
                 for(var i=0;i<data.data.length;i++)
                 {
                   if(i%4==0){
-                    str = str +'<tr class="info"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                    str = str +'<tr class="info"><td>'+data.data[i].ScenarioName+'</td><td>$'+data.data[i].Total+'</td></tr>';
                   }
                   else if (i%4==1){
-                    str = str +'<tr class="success"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                    str = str +'<tr class="success"><td>'+data.data[i].ScenarioName+'</td><td>$'+data.data[i].Total+'</td></tr>';
                   }
                   else if (i%4==2){
-                    str = str +'<tr class="warning"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                    str = str +'<tr class="warning"><td>'+data.data[i].ScenarioName+'</td><td>$'+data.data[i].Total+'</td></tr>';
                   }
                   else {
-                    str = str +'<tr class="danger"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                    str = str +'<tr class="danger"><td>'+data.data[i].ScenarioName+'</td><td>$'+data.data[i].Total+'</td></tr>';
                   }
                 }
                 str = str+'</tbody></table>';                  
