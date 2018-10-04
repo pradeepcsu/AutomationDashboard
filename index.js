@@ -156,6 +156,41 @@ request.query("Select Count(TestPassed) AS Number from Table_1 where CONVERT(var
 	});	
 });
 
+
+app.post('/getDuplicates',function(req, res){
+	res.setHeader('Content-Type', 'application/json');
+	  res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	
+	sql.connect(config, function (err) {
+        if (err) console.log(err);
+
+        // create Request object
+        var request = new sql.Request();
+           
+		request.query("WITH NewTable AS	(  SELECT ScenarioName, Count(*) AS Total FROM Table_1 where TestFailReason = 'environmentslow' group by ScenarioName ) SELECT ScenarioName, Total FROM NewTable WHERE Total > 1", function (err, rows) {
+
+			if (err) {
+				// connection.end();
+				res.send(JSON.stringify({
+					data: [],
+					error:err
+				}));
+				sql.close();
+			} 
+			else 
+			{
+				// connection.end();
+				res.send(JSON.stringify({
+					data: rows,
+					error:""
+				}));
+				sql.close();		
+	}
+});
+});	
+});
+	
 app.listen(8080, function () {
   console.log('Server is running. Point your browser to: http://localhost:8080');
 });

@@ -53,6 +53,66 @@ new Chart(document.getElementById("chartjs-4"),{"type":"doughnut","data":{"label
         });
 }
 
+
+function getdata_3()
+        {
+          $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/getDuplicates",
+                    data: {},
+              error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                  msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                  msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                  msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                  msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                  msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                  msg = 'Ajax request aborted.';
+                } else {
+                  msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                //$('#post').html(msg);
+                alert(msg);
+              },
+              success: function(data) {
+                var str="";
+                console.log(data.data);                 
+                
+
+                // str='<table class="table"><thead></thead><tbody><tr class="warning"><td>Date of Execution</td><td>'+selectedDate+'</td></tr> <tr class="info"><td>Number of Tests Executed</td><td>'+data.total+'</td></tr><tr class="success"><td>Number of Tests Passed</td><td>'+data.pass+'</td></tr><tr class="danger"><td>Number of Tests Failed</td><td>'+data.fail+'</td> </tr></tbody></table>';
+
+               str = ' <table class="table" width="400"><thead></thead><tbody>';
+                for(var i=0;i<data.data.length;i++)
+                {
+                  if(i%4==0){
+                    str = str +'<tr class="info"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                  }
+                  else if (i%4==1){
+                    str = str +'<tr class="success"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                  }
+                  else if (i%4==2){
+                    str = str +'<tr class="warning"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                  }
+                  else {
+                    str = str +'<tr class="danger"><td>'+data.data[i].name+'</td><td>$'+data.data[i].phone_bill+'</td></tr>';
+                  }
+                }
+                str = str+'</tbody></table>';                  
+                $("#duplicatesable").html(str);       
+                    }
+                });
+        }
+
+
+
+
+
 function getdata_1(selectedDate)
 {
 	$.ajax({
@@ -140,12 +200,12 @@ new Chart(document.getElementById("chartjs-4_1"),{"type":"doughnut","data":{"lab
 <canvas id="chartjs-4" class="chartjs"></canvas>
 </div>
 <div id="donutchart" style="width: 900px; height: 500px;"></div>
-
+<div style="width:700px; height:400px">
+<div id="duplicatesable"></div>
+</div>
 </center>
 </center>
-
-  
-	  </div>
+</div>
 	  <div id="menu1" class="tab-pane fade">
 		<h3>Menu 1</h3>
 		<h2>Get Test Results</h2>
