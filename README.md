@@ -6,7 +6,7 @@ For this I had to create a SQL Server test database and log all test execution d
 
 It can be deployed to Heroku or Openshift and can be used internally for test automation results analysis
 
-This dashboard is very useful in communicating importance of test automation and understanding of test executions, reports to management and other teams
+This dashboard is very useful in communicating importance of test automation and understanding of test executions, reports to management and other teams, I am trying to integrate Test Runner to this, so that we can use the same tool to execute automation tests and scheduling.
 
 I will add more details in the future
 
