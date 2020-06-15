@@ -9,3 +9,6 @@ It can be deployed to Heroku or Openshift and can be used internally for test au
 This dashboard is very useful in communicating importance of test automation and understanding of test executions, reports to management and other teams
 
 I will add more details in the future
+
+![Run Tests](https://github.com/pradeepcsu/AutomationDashboard/blob/master/Dashboard_Screensho.png)
+
