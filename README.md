@@ -1,4 +1,4 @@
-# dashboardsample
+# Automation Dashboard
 
 I created test automation dashboard using NodeJS, ExpressJS, JavaScript and HTML
 
